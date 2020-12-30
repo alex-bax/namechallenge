@@ -127,21 +127,24 @@ var App = () => {
           Left
         </aside>
         <article className="mainContent">
-         
+
           <h2 className="wow">City Name Challenge - Denmark</h2>
           <p>Enter a danish City that starts with the letter: </p>
           <h2>{startCh.toUpperCase()}</h2>
           {sendVal ? <p> Entered: <span className={acc ? "correctTxt" : "wrongTxt" }>{sendVal}</span></p> : <p></p> }
           {infoMess.length === 0 ? <p>Score: {score}</p> : <p className={["display-linebreak", "blue-border"].join(" ")}>{infoMess}</p>}
           <Timer secs={60} stopFunc={stopGame}/>
+
           {!isDone ?
-            <div>
-              <form onSubmit={handleSubmit}>
-                <input type="text" onChange={handleChange} value={cityInp} />
-                <button type="submit">Submit city</button>
-              </form>
+            <div className="form">
+                <form onSubmit={handleSubmit}>
+                    <div className="inpDiv">
+                      <input type="text" onChange={handleChange} value={cityInp} />
+                    </div>
+                    <button type="submit">Submit city</button>
+                </form>
             </div>
-            : <p>Game done</p>
+              : <p>Game done</p>
           }
         </article>
 
