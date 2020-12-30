@@ -127,8 +127,8 @@ var App = () => {
           Left
         </aside>
         <article className="mainContent">
-          MainContent
-          <h2>City Name Challenge - Denmark</h2>
+         
+          <h2 className="wow">City Name Challenge - Denmark</h2>
           <p>Enter a danish City that starts with the letter: </p>
           <h2>{startCh.toUpperCase()}</h2>
           {sendVal ? <p> Entered: <span className={acc ? "correctTxt" : "wrongTxt" }>{sendVal}</span></p> : <p></p> }

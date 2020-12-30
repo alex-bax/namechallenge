@@ -31,7 +31,7 @@ var Timer = (props) => {
 
     return(
         <div className="Timer">
-            {seconds}s
+            <p>{seconds}s</p>
             <button onClick={toggleIsRunning}>{isRunning ? "Pause" : "Start"} </button>
             <button onClick={reset}>Reset</button>
         </div>
