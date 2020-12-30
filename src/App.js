@@ -8,6 +8,7 @@ var App = () => {
   const [sendVal, setSendVal] = useState("");   //final val being sent
   const [score, setScore] = useState(0);
   const [acc, setAcc] = useState(false);    //if sent city was accepted
+  const [sec, setSecs] = useState(60);
 
   // const [isLoading, setLoading] = useState(true);
   const [isDone, setIsDone] = useState(false);   //is game-timer done, ie. is can user send cities
@@ -55,6 +56,10 @@ var App = () => {
       setScore(0);
       setUsedCities([]);
     }
+  }
+
+  function updateSecs (secFromTimer) {
+    setSecs(secFromTimer);
   }
 
   const checkCity = (cityName) => {
@@ -118,42 +123,52 @@ var App = () => {
     <div className="container">
 
       <header>
-        Header
+
       </header>
       <main className="main">
         <img className="bg" alt="nyhavn" src="https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"/>
 
         <aside className="left">
-          Left
+
         </aside>
         <article className="mainContent">
-          MainContent
-          <h2>City Name Challenge - Denmark</h2>
-          <p>Enter a danish City that starts with the letter: </p>
-          <h2>{startCh.toUpperCase()}</h2>
+
+          <h2 className="title" >City Name Challenge</h2>
+          <h1>Denmark</h1>
+          <p style={{marginTop: "20px"}}>Enter a danish city that starts with the letter: </p>
+
+
           {sendVal ? <p> Entered: <span className={acc ? "correctTxt" : "wrongTxt" }>{sendVal}</span></p> : <p></p> }
-          {infoMess.length === 0 ? <p>Score: {score}</p> : <p className={["display-linebreak", "blue-border"].join(" ")}>{infoMess}</p>}
-          <Timer secs={60} stopFunc={stopGame}/>
+          <div className="scoreDiv">
+            <h1 className="startCh">{startCh.toUpperCase()}</h1>
+            <p className="secs">{sec}s</p>
+          </div>
+            {infoMess.length === 0 ? <p>Score: {score}</p> : <p className={["display-linebreak", "blue-border"].join(" ")}>{infoMess}</p>}
+            <Timer secs={60} stopFunc={stopGame} updateTime={updateSecs}/>
+
           {!isDone ?
-            <div>
-              <form onSubmit={handleSubmit}>
-                <input type="text" onChange={handleChange} value={cityInp} />
-                <button type="submit">Submit city</button>
-              </form>
+            <div className="form">
+                <form onSubmit={handleSubmit}>
+                    <div className="inpDiv">
+                      <input type="text" onChange={handleChange} value={cityInp} />
+                      {/* <button type="submit">Submit city</button> */}
+                      <button className="submitButton" type="submit">Submit city</button>
+                    </div>
+                </form>
             </div>
-            : <p>Game done</p>
+              : <p>Game done</p>
           }
         </article>
 
         <nav className="right">
-          RIGHT
+
         </nav>
 
       </main>
 
 
 
-     <footer className="footer">Footer</footer>
+     <footer className="footer"></footer>
     </div>
 
   );
