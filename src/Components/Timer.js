@@ -6,12 +6,13 @@ var Timer = (props) => {
     const [seconds, setSeconds] = useState(props.secs);
     const [isRunning, setIsRunning] = useState(false);
 
+
     const toggleIsRunning = () => { setIsRunning(!isRunning); }
     const reset = () => {
-        setSeconds(props.secs);
+        setSeconds(3);  //what ever hardcoded val from App.js
         setIsRunning(false);
-        props.stopFunc();   //reset game
-
+        props.stopFunc(false);   //reset game
+        props.updateTime(3);   //reset App secs state
     }
 
     useEffect(() => {
@@ -19,16 +20,16 @@ var Timer = (props) => {
         if (isRunning && seconds > 0) {
             interval = setInterval(() => {
                 // setSeconds(seconds => seconds - 1);
+                props.updateTime(seconds-1);
                 setSeconds(seconds-1);
-                props.updateTime(seconds);
 
               }, 1000);
         } else if (isRunning) {
             // debugger;
+            props.updateTime(0);
             setSeconds(0);
-            props.updateTime(seconds);
             setIsRunning(false);
-            props.stopFunc();
+            props.stopFunc(true);
             clearInterval(interval);
         }
         return () => clearInterval(interval);
@@ -39,7 +40,9 @@ var Timer = (props) => {
             {/* <p className="secs">{seconds}s</p> */}
 
             <div >
-                <button onClick={toggleIsRunning} className="button">{isRunning ? "Pause" : "Start"} </button>
+                {seconds > 0 ?
+                    <button disabled={seconds===0} onClick={toggleIsRunning} className="button">{isRunning ? "Pause" : "Start"}</button>
+                    : ""}
                 <button onClick={reset} className="button">Reset</button>
             </div>
         </div>

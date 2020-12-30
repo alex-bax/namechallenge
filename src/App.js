@@ -8,7 +8,7 @@ var App = () => {
   const [sendVal, setSendVal] = useState("");   //final val being sent
   const [score, setScore] = useState(0);
   const [acc, setAcc] = useState(false);    //if sent city was accepted
-  const [sec, setSecs] = useState(60);
+  const [sec, setSecs] = useState(3);
 
   // const [isLoading, setLoading] = useState(true);
   const [isDone, setIsDone] = useState(false);   //is game-timer done, ie. is can user send cities
@@ -50,11 +50,13 @@ var App = () => {
     }
 
   //passed down to Timer - reset all state
-  function stopGame () {
-    setIsDone(!isDone);
-    if(isDone) {
+  function stopGame (inp) {
+    setIsDone(inp);
+    if(!inp) {
       setScore(0);
       setUsedCities([]);
+
+      // setSecs(0);
     }
   }
 
@@ -123,13 +125,11 @@ var App = () => {
     <div className="container">
 
       <header>
-
       </header>
       <main className="main">
         <img className="bg" alt="nyhavn" src="https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"/>
 
         <aside className="left">
-
         </aside>
         <article className="mainContent">
 
@@ -144,7 +144,7 @@ var App = () => {
             <p className="secs">{sec}s</p>
           </div>
             {infoMess.length === 0 ? <p>Score: {score}</p> : <p className={["display-linebreak", "blue-border"].join(" ")}>{infoMess}</p>}
-            <Timer secs={60} stopFunc={stopGame} updateTime={updateSecs}/>
+            <Timer secs={sec} stopFunc={stopGame} updateTime={updateSecs}/>
 
           {!isDone ?
             <div className="form">
@@ -156,7 +156,7 @@ var App = () => {
                     </div>
                 </form>
             </div>
-              : <p>Game done</p>
+              : <p>Finished - Check your score and results below</p>
           }
         </article>
 
