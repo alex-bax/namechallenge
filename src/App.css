@@ -1,38 +1,100 @@
-.App {
-  text-align: center;
+/* Layout */
+body {
+   margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+
+}
+
+.left {
+  width: 25%;
+}
+
+.mainContent {
+  flex-grow: 1;
+  text-align: center;
+  background-color: whitesmoke;
+
+}
+
+.right {
+  width: 25%;
+
+}
+
+.footer {
+
+}
+
+/* Elements */
+
+.bg {
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+  opacity: 50%;
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index:  -1;
+}
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px;   /* 50% */
+  }
+}
+
+
+
+.italic {
+  font-style: italic;
+  color: red;
+}
+
+.wrongTxt {
+  color: red;
+  padding: 1;
+}
+
+.correctTxt {
+  color: green;
+  padding: 5;
+}
+
+.display-linebreak {
+  white-space: pre-line;
+}
+
+.blue-border{
+  border: solid 3px #103f81;
+  padding: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  /* align-items: center; */
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: auto;
 }
 
-.App-link {
-  color: #61dafb;
+p {
+  margin: 0px;
+  padding: 0px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
