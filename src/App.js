@@ -2,6 +2,7 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Timer from './Components/Timer';
+import randStartCh2 from './Components/RandChar';
 
 var App = () => {
   const [cityInp, setCityInp] = useState("");
@@ -10,11 +11,9 @@ var App = () => {
   const [acc, setAcc] = useState(false);    //if sent city was accepted
   const [sec, setSecs] = useState(10);
 
-  // const [isLoading, setLoading] = useState(true);
-  const [startCh, setStartCh] = useState('Æ') //useState(String.fromCharCode(Math.floor(Math.random() * ("Z".charCodeAt(0) - "A".charCodeAt(0) + 1)) + "A".charCodeAt(0)));
-  const [usedCities, setUsedCities] = useState(["Præstø","Pedersker","Padborg","Pjedsted","Pindstrup","Pårup","Præstbro","Pandrup","Poulstrup"]); //useState([]);
+  const [startCh, setStartCh] = useState(''); //useState(String.fromCharCode(Math.floor(Math.random() * ("Z".charCodeAt(0) - "A".charCodeAt(0) + 1)) + "A".charCodeAt(0)));
+  const [usedCities, setUsedCities] = useState([]);//useState(["Præstø","Pedersker","Padborg","Pjedsted","Pindstrup","Pårup","Præstbro","Pandrup","Poulstrup"]);
   const [infoMess, setInfoMess] = useState("");
-  // const [citiesByStartCh, setCitiesByStartCh] = useState([]);
 
   const handleChange = (event) => {
     setCityInp(event.target.value)
@@ -24,7 +23,7 @@ var App = () => {
     event.preventDefault();   //prev sit from reloading..
     setSendVal(cityInp);
     const cityInpLow = cityInp.toLowerCase();
-    isStartChValid('W');  //test
+    // isStartChValid('W');  //test
     if ((startCh.toLowerCase() === cityInpLow.charAt(0) && !usedCities.includes(cityInpLow))) {
       checkCity(cityInp);
     } else {
@@ -48,6 +47,11 @@ var App = () => {
       })
     }
 
+
+  useEffect(() => {
+    isStartChValid(randStartCh2());
+  }, []);
+
   //passed down to Timer - reset all state
   function stopGame (inp) {
     if(!inp) {
@@ -67,7 +71,7 @@ var App = () => {
     axios.get('https://localhost:5001/city/' + cityName)
       .then(res => {
         console.log("checkCity:", res.data);
-        // setLoading(false);
+
         setAcc(res.data);
         if(res.data) {
           setCityInp("");
@@ -102,8 +106,8 @@ var App = () => {
           }
         } else {  //no cities w. startCh in API e.g 'Z' - find new rand. startCh
           debugger;
-          // isStartChValid(randStartCh());
-          isStartChValid('P');
+          isStartChValid(randStartCh2());
+          // isStartChValid('P');   //testing
 
         }
     })
