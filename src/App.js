@@ -8,10 +8,9 @@ var App = () => {
   const [sendVal, setSendVal] = useState("");   //final val being sent
   const [score, setScore] = useState(0);
   const [acc, setAcc] = useState(false);    //if sent city was accepted
-  const [sec, setSecs] = useState(3);
+  const [sec, setSecs] = useState(10);
 
   // const [isLoading, setLoading] = useState(true);
-  const [isDone, setIsDone] = useState(false);   //is game-timer done, ie. is can user send cities
   const [startCh, setStartCh] = useState('Æ') //useState(String.fromCharCode(Math.floor(Math.random() * ("Z".charCodeAt(0) - "A".charCodeAt(0) + 1)) + "A".charCodeAt(0)));
   const [usedCities, setUsedCities] = useState(["Præstø","Pedersker","Padborg","Pjedsted","Pindstrup","Pårup","Præstbro","Pandrup","Poulstrup"]); //useState([]);
   const [infoMess, setInfoMess] = useState("");
@@ -51,12 +50,12 @@ var App = () => {
 
   //passed down to Timer - reset all state
   function stopGame (inp) {
-    setIsDone(inp);
     if(!inp) {
       setScore(0);
       setUsedCities([]);
-
-      // setSecs(0);
+      setCityInp("");
+      setSendVal("");
+      setAcc(false);
     }
   }
 
@@ -92,10 +91,10 @@ var App = () => {
         if (citiesByCh.length > 0) {
           const fil = usedCities.filter(name => citiesByCh.includes(name));   //keep items that are in both lsts
           if (fil.length === citiesByCh.length) {   //lsts identical - thus all cities w. that startCh are used
-            setInfoMess("Random letter generated \n No cities left starting with: \n" + stCh);
+            setInfoMess("Random letter generated \n No cities left starting with: " + stCh);
             setTimeout(() => {
               setInfoMess("")
-            }, 500000)
+            }, 5000)
             isStartChValid(randStartCh());
 
           } else {
@@ -138,7 +137,7 @@ var App = () => {
           <p style={{marginTop: "20px"}}>Enter a danish city that starts with the letter: </p>
 
 
-          {sendVal ? <p> Entered: <span className={acc ? "correctTxt" : "wrongTxt" }>{sendVal}</span></p> : <p></p> }
+          {sendVal ? <p style={{fontSize: "24px", marginTop: "5px"}}> Entered: <span className={acc ? "correctTxt" : "wrongTxt" }>{sendVal}</span></p> : <p></p> }
           <div className="scoreDiv">
             <h1 className="startCh">{startCh.toUpperCase()}</h1>
             <p className="secs">{sec}s</p>
@@ -146,22 +145,21 @@ var App = () => {
             {infoMess.length === 0 ? <p>Score: {score}</p> : <p className={["display-linebreak", "blue-border"].join(" ")}>{infoMess}</p>}
             <Timer secs={sec} stopFunc={stopGame} updateTime={updateSecs}/>
 
-          {!isDone ?
+
             <div className="form">
                 <form onSubmit={handleSubmit}>
                     <div className="inpDiv">
-                      <input type="text" onChange={handleChange} value={cityInp} />
+                      <input type="text" onChange={handleChange} value={cityInp} disabled={ sec === 0 || sec === 10}/>
                       {/* <button type="submit">Submit city</button> */}
-                      <button className="submitButton" type="submit">Submit city</button>
+                      <button className="submitButton" type="submit" disabled={sec === 0 || sec === 10}>Submit city</button>
+
                     </div>
                 </form>
             </div>
-              : <p>Finished - Check your score and results below</p>
-          }
+
         </article>
 
         <nav className="right">
-
         </nav>
 
       </main>
