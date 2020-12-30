@@ -128,8 +128,10 @@ var App = () => {
         </aside>
         <article className="mainContent">
 
-          <h2 className="wow">City Name Challenge - Denmark</h2>
-          <p>Enter a danish City that starts with the letter: </p>
+          <h2 >City Name Challenge - Denmark</h2>
+          <p>Enter a danish city that starts with the letter: </p>
+
+
           <h2>{startCh.toUpperCase()}</h2>
           {sendVal ? <p> Entered: <span className={acc ? "correctTxt" : "wrongTxt" }>{sendVal}</span></p> : <p></p> }
           {infoMess.length === 0 ? <p>Score: {score}</p> : <p className={["display-linebreak", "blue-border"].join(" ")}>{infoMess}</p>}
@@ -140,8 +142,9 @@ var App = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="inpDiv">
                       <input type="text" onChange={handleChange} value={cityInp} />
+                      {/* <button type="submit">Submit city</button> */}
+                      <button className="submitButton">Submit city</button>
                     </div>
-                    <button type="submit">Submit city</button>
                 </form>
             </div>
               : <p>Game done</p>
