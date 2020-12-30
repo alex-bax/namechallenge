@@ -133,8 +133,9 @@ var App = () => {
         </aside>
         <article className="mainContent">
 
-          <h2 className="title" >City Name Challenge - Denmark</h2>
-          <p>Enter a danish city that starts with the letter: </p>
+          <h2 className="title" >City Name Challenge</h2>
+          <h1>Denmark</h1>
+          <p style={{marginTop: "20px"}}>Enter a danish city that starts with the letter: </p>
 
 
           {sendVal ? <p> Entered: <span className={acc ? "correctTxt" : "wrongTxt" }>{sendVal}</span></p> : <p></p> }
