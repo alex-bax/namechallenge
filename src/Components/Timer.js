@@ -11,7 +11,10 @@ var Timer = (props) => {
 
     const secRef = useRef(props.secs);
 
+    // const start = () => { setIsRunning(true); }
+
     const start = () => { setIsRunning(true); }
+
     // const reset = () => {
     //     // setSeconds(20);  //what ever hardcoded val from App.js
     //     setIsRunning(false);
@@ -21,10 +24,12 @@ var Timer = (props) => {
     // }
 
     const reset = () => {
+        clearIncSec();
         secRef.current = 5;
+        setIsRunning(false);
         props.updateTime(secRef.current);
         props.stopFunc(false);
-        // clearIncSec();
+
     }
 
     const clearIncSec = () => {
@@ -32,15 +37,17 @@ var Timer = (props) => {
     }
 
     useEffect(() => {
+    if(isRunning) {
         const intervalId = setInterval(() => {
             if(secRef.current === 0 || isCombo)
                 return clearInterval(intervalId);
-            secRef.current = secRef.current - 1;
+            else secRef.current = secRef.current - 1;
             // setSeconds(secRef.current);
             props.updateTime(secRef.current);
         }, 1000);
 
         return (() => clearInterval(intervalId));
+        }
     }, [isRunning]);
 
     //works - but ++
@@ -80,7 +87,7 @@ var Timer = (props) => {
 
             <div >
                 {secRef.current > 0 ?
-                    <button disabled={props.seconds===0} onClick={start} className="button">Start</button>
+                    <button disabled={secRef.current===0} onClick={start} className="button">Start</button>
                     : ""}
                 <button onClick={reset} className="button">Reset</button>
             </div>
