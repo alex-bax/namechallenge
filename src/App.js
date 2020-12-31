@@ -9,11 +9,13 @@ var App = () => {
   const [sendVal, setSendVal] = useState("");   //final val being sent
   const [score, setScore] = useState(0);
   const [acc, setAcc] = useState(false);    //if sent city was accepted
-  const [sec, setSecs] = useState(10);
+  const [sec, setSecs] = useState(5);
+  const [combo, setCombo] = useState(0);
 
   const [startCh, setStartCh] = useState(''); //useState(String.fromCharCode(Math.floor(Math.random() * ("Z".charCodeAt(0) - "A".charCodeAt(0) + 1)) + "A".charCodeAt(0)));
   const [usedCities, setUsedCities] = useState([]);//useState(["Præstø","Pedersker","Padborg","Pjedsted","Pindstrup","Pårup","Præstbro","Pandrup","Poulstrup"]);
   const [infoMess, setInfoMess] = useState("");
+  const [isTimerActive, setIsTimerActive] = useState(false);
 
   const handleChange = (event) => {
     setCityInp(event.target.value)
@@ -21,13 +23,15 @@ var App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();   //prev sit from reloading..
-    setSendVal(cityInp);
     const cityInpLow = cityInp.toLowerCase();
+    setSendVal(cityInpLow);
+    const startUpper = cityInp.replace(cityInp.charAt(0), cityInp.charAt(0).toUpperCase());
     // isStartChValid('W');  //test
     if ((startCh.toLowerCase() === cityInpLow.charAt(0) && !usedCities.includes(cityInpLow))) {
-      checkCity(cityInp);
+      checkCity(startUpper);
     } else {
       setAcc(false);
+      setCombo(0);
     }
   }
 
@@ -47,15 +51,15 @@ var App = () => {
       })
     }
 
-
   useEffect(() => {
     isStartChValid(randStartCh2());
-  }, []);
+  }, []);   //only do it upon initial render
 
   //passed down to Timer - reset all state
   function stopGame (inp) {
     if(!inp) {
       setScore(0);
+      setCombo(0);
       setUsedCities([]);
       setCityInp("");
       setSendVal("");
@@ -65,6 +69,7 @@ var App = () => {
 
   function updateSecs (secFromTimer) {
     setSecs(secFromTimer);
+    
   }
 
   const checkCity = (cityName) => {
@@ -77,6 +82,16 @@ var App = () => {
           setCityInp("");
           setScore(score + 1);
           setUsedCities(oldLst => [...oldLst, cityName.toLowerCase()]);
+          if(combo === 2) {
+            debugger;
+            setCombo(0);
+            console.log("wombo combo");
+            // setIsTimerActive(false);
+            setSecs(sec + 100);
+            // setIsTimerActive(true);
+          } else {
+            setCombo(combo + 1);
+          }
           // setStartCh(cityName.charAt(cityName.length - 1));
           isStartChValid(cityName.charAt(cityName.length - 1));   //recurse until accep. new rand startCh
 
@@ -91,11 +106,11 @@ var App = () => {
     .then(resp =>  {
         const citiesByCh = resp.data.citiesStartCh;
         console.log(stCh+" startCh: ", citiesByCh);
-        debugger;
+
         if (citiesByCh.length > 0) {
           const fil = usedCities.filter(name => citiesByCh.includes(name));   //keep items that are in both lsts
           if (fil.length === citiesByCh.length) {   //lsts identical - thus all cities w. that startCh are used
-            setInfoMess("Random letter generated \n No cities left starting with: " + stCh);
+            setInfoMess("Random letter generated \n All cities used with: " + stCh);
             setTimeout(() => {
               setInfoMess("")
             }, 5000)
@@ -105,7 +120,7 @@ var App = () => {
             setStartCh(stCh);
           }
         } else {  //no cities w. startCh in API e.g 'Z' - find new rand. startCh
-          debugger;
+
           isStartChValid(randStartCh2());
           // isStartChValid('P');   //testing
 
@@ -137,7 +152,7 @@ var App = () => {
         <article className="mainContent">
 
           <h2 className="title" >City Name Challenge</h2>
-          <h1>Denmark</h1>
+          <h2>Denmark</h2>
           <p style={{marginTop: "20px"}}>Enter a danish city that starts with the letter: </p>
 
 
@@ -147,15 +162,15 @@ var App = () => {
             <p className="secs">{sec}s</p>
           </div>
             {infoMess.length === 0 ? <p>Score: {score}</p> : <p className={["display-linebreak", "blue-border"].join(" ")}>{infoMess}</p>}
-            <Timer secs={sec} stopFunc={stopGame} updateTime={updateSecs}/>
+            <Timer secs={sec} stopFunc={stopGame} updateTime={updateSecs} isCombo={isTimerActive}/>
 
 
             <div className="form">
                 <form onSubmit={handleSubmit}>
                     <div className="inpDiv">
-                      <input type="text" onChange={handleChange} value={cityInp} disabled={ sec === 0 || sec === 10}/>
+                      <input type="text" onChange={handleChange} value={cityInp} disabled={ sec === 0 || sec === 20}/>
                       {/* <button type="submit">Submit city</button> */}
-                      <button className="submitButton" type="submit" disabled={sec === 0 || sec === 10}>Submit city</button>
+                      <button className="submitButton" type="submit" disabled={sec === 0 || sec === 20}>Submit city</button>
 
                     </div>
                 </form>

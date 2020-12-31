@@ -87,7 +87,7 @@ h1, h2, p {
 
 
 .title {
-  font-size: 2.1em;
+  font-size: 2.2em;
   padding-top: 25px;
 }
 /* input {
@@ -175,13 +175,13 @@ textarea:focus, input:focus{
 
 
 .wrongTxt {
-  color: red;
+  color: rgb(255, 71, 71);
   font-weight: bold;
   padding: 1;
 }
 
 .correctTxt {
-  color: green;
+  color: rgb(50, 214, 50);
   font-weight: bold;
 
   padding: 5;
