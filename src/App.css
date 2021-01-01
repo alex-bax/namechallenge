@@ -60,10 +60,10 @@ body {
   /* Set up proportionate scaling */
   width: 100%;
   height: auto;
-
+/* 
   zoom: 1;
 	filter: alpha(opacity=75);
-	opacity: 0.75;
+	opacity: 0.75; */
 
   /* Set up positioning */
   position: fixed;
