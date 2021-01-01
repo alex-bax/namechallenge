@@ -9,7 +9,11 @@ var Timer = (props) => {
 
     const secRef = useRef(props.secs);
 
-    const start = () => { setIsRunning(true); }
+    const start = () => {
+        setIsRunning(true);
+        props.enableInput();
+        props.startFunc();
+    }
 
     const reset = () => {
         clearIncSec();
@@ -28,15 +32,24 @@ var Timer = (props) => {
             // debugger
 
             const intervalId = setInterval(() => {
-                if(secRef.current === 0 || props.isCombo) {
-                    // debugger
+                if(secRef.current === 0) {
+                    reset();
+                } else if (props.isCombo) {
                     clearIncSec();
-                    if(props.isCombo) {
+                    // if(props.isCombo) {
                         secRef.current = secRef.current + 10;    //add 10 sec
-                    }
+                    // }
                     props.setCombFalse();   //to trigger useEffect to start again
                 } else secRef.current = secRef.current - 1;
-                // setSeconds(secRef.current);
+
+                // if(secRef.current === 0 || props.isCombo) {
+                //     clearIncSec();
+                //     if(props.isCombo) {
+                //         secRef.current = secRef.current + 10;    //add 10 sec
+                //     }
+                //     props.setCombFalse();   //to trigger useEffect to start again
+                // } else secRef.current = secRef.current - 1;
+                // // setSeconds(secRef.current);
                 props.updateTime(secRef.current);
             }, 1000);
 
@@ -55,32 +68,13 @@ var Timer = (props) => {
 
     // }, []);
 
-    // useEffect(() => {
-    //     let interval = null;
-    //     if (isRunning && seconds > 0) {
-    //         interval = setInterval(() => {
-    //             // setSeconds(seconds => seconds - 1);
-    //             props.updateTime(seconds-1);
-    //             setSeconds(seconds-1);
-
-    //           }, 1000);
-    //     } else if (isRunning) {
-    //         // debugger;
-    //         props.updateTime(0);
-    //         setSeconds(0);
-    //         setIsRunning(false);
-    //         props.stopFunc(true);
-    //         clearInterval(interval);
-    //     }
-    //     return () => clearInterval(interval);
-    // }, [isRunning, seconds]);     //Only re-run effect if these state changes
-
     return(
         <div className="timer">
             {/* <p className="secs">{seconds}s</p> */}
 
             <div >
-                {secRef.current > 0 ?
+                {/* {secRef.current > 0 ? */}
+                {!isRunning ?
                     <button disabled={secRef.current===0} onClick={start} className="button">Start</button>
                     : ""}
                 <button onClick={reset} className="button">Reset</button>

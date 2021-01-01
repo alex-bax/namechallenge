@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Timer from './Components/Timer';
 import randStartCh2 from './Components/RandChar';
@@ -9,13 +9,16 @@ var App = () => {
   const [sendVal, setSendVal] = useState("");   //final val being sent
   const [score, setScore] = useState(0);
   const [acc, setAcc] = useState(false);    //if sent city was accepted
-  const [sec, setSecs] = useState(20);
+  const [sec, setSecs] = useState(5);
   const [combo, setCombo] = useState(0);
 
   const [startCh, setStartCh] = useState(''); //useState(String.fromCharCode(Math.floor(Math.random() * ("Z".charCodeAt(0) - "A".charCodeAt(0) + 1)) + "A".charCodeAt(0)));
   const [usedCities, setUsedCities] = useState([]);//useState(["Præstø","Pedersker","Padborg","Pjedsted","Pindstrup","Pårup","Præstbro","Pandrup","Poulstrup"]);
   const [infoMess, setInfoMess] = useState("");
   const [isComb, setIsComb] = useState(false);
+  const [isActive, setIsActive] = useState(false);  //is game running
+
+  const inpRef = useRef();    //used to auto focus input
 
   const handleChange = (event) => {
     setCityInp(event.target.value)
@@ -30,8 +33,8 @@ var App = () => {
     if ((startCh.toLowerCase() === cityInpLow.charAt(0) && !usedCities.includes(cityInpLow))) {
       checkCity(startUpper);
     } else {
-      setAcc(false);
       setCombo(0);
+      setAcc(false);
       setIsComb(false)
     }
   }
@@ -64,6 +67,7 @@ var App = () => {
     setCityInp("");
     setSendVal("");
     setAcc(false);
+    setIsActive(false);
   }
 
   function updateSecs (secFromTimer) {
@@ -74,6 +78,16 @@ var App = () => {
     console.log("app - set comb false")
     setCombo(false);
     setIsComb(false);
+  }
+
+  function enableInp() {
+    console.log("enable!")
+    // debugger
+    inpRef.current.focus();
+  }
+
+  function startGame() {
+    setIsActive(true);
   }
 
   const checkCity = (cityName) => {
@@ -165,14 +179,17 @@ var App = () => {
           </div>
             {infoMess.length === 0 ? <p className="scoreTxt">Score: {score}</p> : <p className={["display-linebreak", "blue-border"].join(" ")}>{infoMess}</p>}
             <p>Combo: {combo }</p>
-            <Timer secs={sec} stopFunc={stopGame} updateTime={updateSecs} setCombFalse={setComboFalse}
-                isCombo={isComb} />
+            <Timer secs={sec} stopFunc={stopGame} startFunc={startGame} updateTime={updateSecs} setCombFalse={setComboFalse}
+                isCombo={isComb} enableInput={enableInp} />
 
 
             <div className="form">
                 <form onSubmit={handleSubmit}>
                     <div className="inpDiv">
-                      <input type="text" onChange={handleChange} value={cityInp} disabled={ sec === 0 || sec === 20}/>
+                      <input type="text" onChange={handleChange} value={cityInp}
+                          // disabled={ sec === 0 || sec === 20} ref={inpRef}/>
+                          disabled={!isActive} ref={inpRef}/>
+
                       {/* <button type="submit">Submit city</button> */}
                       <button className="submitButton" type="submit" disabled={sec === 0 || sec === 20}>Submit city</button>
 
