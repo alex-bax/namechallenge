@@ -36,20 +36,10 @@ var Timer = (props) => {
                     reset();
                 } else if (props.isCombo) {
                     clearIncSec();
-                    // if(props.isCombo) {
-                        secRef.current = secRef.current + 10;    //add 10 sec
-                    // }
+                    secRef.current = secRef.current + 10;    //add 10 sec
                     props.setCombFalse();   //to trigger useEffect to start again
                 } else secRef.current = secRef.current - 1;
 
-                // if(secRef.current === 0 || props.isCombo) {
-                //     clearIncSec();
-                //     if(props.isCombo) {
-                //         secRef.current = secRef.current + 10;    //add 10 sec
-                //     }
-                //     props.setCombFalse();   //to trigger useEffect to start again
-                // } else secRef.current = secRef.current - 1;
-                // // setSeconds(secRef.current);
                 props.updateTime(secRef.current);
             }, 1000);
 

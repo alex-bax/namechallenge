@@ -67,13 +67,20 @@ var App = () => {
 
   //passed down to Timer - reset all state
   function stopGame () {
-    setScore(0);
+    // setScore(0);
     setCombo(0);
-    setUsedCities([]);
+    // setUsedCities([]);
     setCityInp("");
     setSendVal("");
     setAcc(false);
     setIsActive(false);
+  }
+
+  function startGame() {
+    setScore(0);
+    setUsedCities([]);
+    setIsActive(true);
+
   }
 
   function updateSecs (secFromTimer) {
@@ -92,9 +99,7 @@ var App = () => {
     inpRef.current.focus();
   }
 
-  function startGame() {
-    setIsActive(true);
-  }
+
 
   const checkCity = (cityName) => {
     axios.get('https://localhost:5001/city/' + cityName)
