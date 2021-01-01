@@ -3,25 +3,12 @@ import { useState, useEffect, useRef } from "react";
 
 var Timer = (props) => {
 
-    // const [seconds, setSeconds] = useState(props.secs);
-
     const [isRunning, setIsRunning] = useState(false);
-    const [isCombo, setIsCombo] = useState(props.isCombo);
-    // const [seconds, setSeconds] = useState(0);     //val doesn't matter - is overwritten by interval
+    // const [isCombo, setIsCombo] = useState(props.isCombo);
 
     const secRef = useRef(props.secs);
 
-    // const start = () => { setIsRunning(true); }
-
     const start = () => { setIsRunning(true); }
-
-    // const reset = () => {
-    //     // setSeconds(20);  //what ever hardcoded val from App.js
-    //     setIsRunning(false);
-    //     props.stopFunc(false);   //reset game
-    //     props.updateTime(20);   //reset App secs state
-    //     clearIncSec()
-    // }
 
     const reset = () => {
         clearIncSec();
@@ -29,7 +16,6 @@ var Timer = (props) => {
         setIsRunning(false);
         props.updateTime(secRef.current);
         props.stopFunc(false);
-
     }
 
     const clearIncSec = () => {
@@ -37,18 +23,26 @@ var Timer = (props) => {
     }
 
     useEffect(() => {
-    if(isRunning) {
-        const intervalId = setInterval(() => {
-            if(secRef.current === 0 || isCombo)
-                return clearInterval(intervalId);
-            else secRef.current = secRef.current - 1;
-            // setSeconds(secRef.current);
-            props.updateTime(secRef.current);
-        }, 1000);
+        if(isRunning) {
+            // debugger
 
-        return (() => clearInterval(intervalId));
+            const intervalId = setInterval(() => {
+                if(secRef.current === 0 || props.isCombo) {
+                    // clearInterval(intervalId);
+                    // debugger
+                    clearIncSec();
+                    if(props.isCombo) {
+                        secRef.current = secRef.current + 50;    //add 10 sec
+                    }
+                    props.setCombFalse();   //to trigger useEffect to start again
+                } else secRef.current = secRef.current - 1;
+                // setSeconds(secRef.current);
+                props.updateTime(secRef.current);
+            }, 1000);
+
+            return (() => clearInterval(intervalId));
         }
-    }, [isRunning]);
+    }, [isRunning, props.isCombo]);
 
     //works - but ++
     // useEffect(() => {

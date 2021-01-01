@@ -9,13 +9,13 @@ var App = () => {
   const [sendVal, setSendVal] = useState("");   //final val being sent
   const [score, setScore] = useState(0);
   const [acc, setAcc] = useState(false);    //if sent city was accepted
-  const [sec, setSecs] = useState(5);
+  const [sec, setSecs] = useState(20);
   const [combo, setCombo] = useState(0);
 
   const [startCh, setStartCh] = useState(''); //useState(String.fromCharCode(Math.floor(Math.random() * ("Z".charCodeAt(0) - "A".charCodeAt(0) + 1)) + "A".charCodeAt(0)));
   const [usedCities, setUsedCities] = useState([]);//useState(["Præstø","Pedersker","Padborg","Pjedsted","Pindstrup","Pårup","Præstbro","Pandrup","Poulstrup"]);
   const [infoMess, setInfoMess] = useState("");
-  const [isTimerActive, setIsTimerActive] = useState(false);
+  const [isComb, setIsComb] = useState(false);
 
   const handleChange = (event) => {
     setCityInp(event.target.value)
@@ -32,6 +32,7 @@ var App = () => {
     } else {
       setAcc(false);
       setCombo(0);
+      setIsComb(false)
     }
   }
 
@@ -69,7 +70,12 @@ var App = () => {
 
   function updateSecs (secFromTimer) {
     setSecs(secFromTimer);
-    
+  }
+
+  function setComboFalse() {
+    console.log("app - set comb false")
+    setCombo(false);
+    setIsComb(false);
   }
 
   const checkCity = (cityName) => {
@@ -79,18 +85,18 @@ var App = () => {
 
         setAcc(res.data);
         if(res.data) {
+          debugger
+
           setCityInp("");
           setScore(score + 1);
+          setCombo(combo + 1);
           setUsedCities(oldLst => [...oldLst, cityName.toLowerCase()]);
-          if(combo === 2) {
-            debugger;
+          console.log("combo", combo)
+          if((combo+1) === 2) {
             setCombo(0);
-            console.log("wombo combo");
-            // setIsTimerActive(false);
-            setSecs(sec + 100);
-            // setIsTimerActive(true);
-          } else {
-            setCombo(combo + 1);
+            setIsComb(true);
+            // setIsComb(false)
+            // setSecs(sec + 100);
           }
           // setStartCh(cityName.charAt(cityName.length - 1));
           isStartChValid(cityName.charAt(cityName.length - 1));   //recurse until accep. new rand startCh
@@ -162,7 +168,7 @@ var App = () => {
             <p className="secs">{sec}s</p>
           </div>
             {infoMess.length === 0 ? <p>Score: {score}</p> : <p className={["display-linebreak", "blue-border"].join(" ")}>{infoMess}</p>}
-            <Timer secs={sec} stopFunc={stopGame} updateTime={updateSecs} isCombo={isTimerActive}/>
+            <Timer secs={sec} stopFunc={stopGame} updateTime={updateSecs} setCombFalse={setComboFalse} isCombo={isComb}/>
 
 
             <div className="form">
