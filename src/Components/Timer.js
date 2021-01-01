@@ -17,7 +17,7 @@ var Timer = (props) => {
 
     const reset = () => {
         clearIncSec();
-        secRef.current = 20;
+        secRef.current = 30;
         setIsRunning(false);
         props.updateTime(secRef.current);
         props.stopFunc();

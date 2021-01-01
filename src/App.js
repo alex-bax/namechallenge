@@ -10,7 +10,7 @@ var App = () => {
   const [sendVal, setSendVal] = useState("");   //final val being sent
   const [score, setScore] = useState(0);
   const [acc, setAcc] = useState(false);    //if sent city was accepted
-  const [sec, setSecs] = useState(5);
+  const [sec, setSecs] = useState(30);
   const [combo, setCombo] = useState(0);
 
   const [startCh, setStartCh] = useState(''); //useState(String.fromCharCode(Math.floor(Math.random() * ("Z".charCodeAt(0) - "A".charCodeAt(0) + 1)) + "A".charCodeAt(0)));
@@ -30,7 +30,6 @@ var App = () => {
     const cityInpLow = cityInp.toLowerCase();
     setSendVal(cityInpLow);
     const startUpper = cityInp.replace(cityInp.charAt(0), cityInp.charAt(0).toUpperCase());
-    // isStartChValid('W');  //test
     if ((startCh.toLowerCase() === cityInpLow.charAt(0) && !usedCities.includes(cityInpLow))) {
       checkCity(startUpper);
     } else {
@@ -60,6 +59,7 @@ var App = () => {
   useEffect(() => {
     if(!isActive) {
       isStartChValid(randStartCh2());
+      // setStartCh('I')  //testing randChar
     } else {
       enableInp()
     }
@@ -68,7 +68,6 @@ var App = () => {
 
   //passed down to Timer - reset all state
   function stopGame () {
-    // setScore(0);
     setCombo(0);
     // setUsedCities([]);
     setCityInp("");
@@ -139,7 +138,7 @@ var App = () => {
         if (citiesByCh.length > 0) {
           const fil = usedCities.filter(name => citiesByCh.includes(name));   //keep items that are in both lsts
           if (fil.length === citiesByCh.length) {   //lsts identical - thus all cities w. that startCh are used
-            setInfoMess("Random letter generated \n All cities used with: " + stCh);
+            setInfoMess("Random letter generated \n All cities used with: " + stCh.toUpperCase());
             setTimeout(() => {
               setInfoMess("")
             }, 5000)
@@ -209,6 +208,7 @@ var App = () => {
                     </div>
                 </form>
             </div>
+            {usedCities.length > 0 ? <h2 style={{marginBottom:"7px"}}>Entered cities</h2> : ""}
             <ResultTable cities={usedCities} />
 
         </article>
