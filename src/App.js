@@ -102,7 +102,7 @@ var App = () => {
 
 
   const checkCity = (cityName) => {
-    axios.get('https://localhost:5001/city/' + cityName)
+    axios.get('https://democity.azurewebsites.net/' + cityName)
       .then(res => {
         console.log("checkCity:", res.data);
 
@@ -130,7 +130,7 @@ var App = () => {
 
   //recurses until new usable startCh is generated - then changes state
   const isStartChValid = (stCh) => {
-    axios.get('https://localhost:5001/cat/' + stCh.toUpperCase())
+    axios.get('https://democity.azurewebsites.net/cat/' + stCh.toUpperCase())
     .then(resp =>  {
         const citiesByCh = resp.data.citiesStartCh;
         console.log(stCh+" startCh: ", citiesByCh);
