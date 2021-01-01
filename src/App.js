@@ -114,7 +114,7 @@ var App = () => {
           setCombo(combo + 1);
           setUsedCities(oldLst => [...oldLst, cityName.toLowerCase()]);
           console.log("combo", combo)
-          if((combo+1) === 2) {
+          if((combo+1) === 3) {
             setCombo(0);
             setIsComb(true);
             // setIsComb(false)
