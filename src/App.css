@@ -87,7 +87,7 @@ h1, h2, p {
 
 
 .title {
-  font-size: 2.1em;
+  font-size: 2.2em;
   padding-top: 25px;
 }
 /* input {
@@ -120,6 +120,7 @@ h1, h2, p {
   align-items: center;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 21px;
 }
 
 .form {
@@ -174,22 +175,34 @@ textarea:focus, input:focus{
 
 
 .wrongTxt {
-  color: red;
+  color: rgb(255, 71, 71);
+  font-weight: bold;
   padding: 1;
 }
 
 .correctTxt {
-  color: green;
+  color: rgb(50, 214, 50);
+  font-weight: bold;
+
   padding: 5;
+}
+
+.greenTxt {
+  color: rgb(50, 214, 50);
 }
 
 .display-linebreak {
   white-space: pre-line;
 }
 
+.scoreTxt {
+  font-size: 26px;
+}
+
 /*info box*/
 .blue-border{
-  border: solid 3px #103f81;
+  border: solid 3px #2e94f5;
+  background-color: rgba(32, 179, 216, 0.4);
   padding: 5px;
   margin-bottom: 5px;
   display: flex;

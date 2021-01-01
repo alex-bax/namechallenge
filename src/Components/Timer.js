@@ -1,46 +1,84 @@
 import './Timer.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 var Timer = (props) => {
 
-    const [seconds, setSeconds] = useState(props.secs);
     const [isRunning, setIsRunning] = useState(false);
 
-    const toggleIsRunning = () => { setIsRunning(!isRunning); }
-    const reset = () => {
-        setSeconds(props.secs);
-        setIsRunning(false);
-        props.stopFunc();   //reset game
+    // const [isCombo, setIsCombo] = useState(props.isCombo);
 
+    const secRef = useRef(props.secs);
+
+    const start = () => {
+        setIsRunning(true);
+        props.startFunc();
+        // props.enableInput();
+    }
+
+    const reset = () => {
+        clearIncSec();
+        secRef.current = 20;
+        setIsRunning(false);
+        props.updateTime(secRef.current);
+        props.stopFunc();
+    }
+
+    const clearIncSec = () => {
+        window.clearInterval(secRef.current);
     }
 
     useEffect(() => {
-        let interval = null;
-        if (isRunning && seconds > 0) {
-            interval = setInterval(() => {
-                // setSeconds(seconds => seconds - 1);
-                setSeconds(seconds-1);
-                props.updateTime(seconds);
+        if(isRunning) {
+            // debugger
 
-              }, 1000);
-        } else if (isRunning) {
-            // debugger;
-            setSeconds(0);
-            props.updateTime(seconds);
-            setIsRunning(false);
-            props.stopFunc();
-            clearInterval(interval);
+            const intervalId = setInterval(() => {
+                if(secRef.current === 0) {
+                    reset();
+                } else if (props.isCombo) {
+                    clearIncSec();
+                    // if(props.isCombo) {
+                        secRef.current = secRef.current + 10;    //add 10 sec
+                    // }
+                    props.setCombFalse();   //to trigger useEffect to start again
+                } else secRef.current = secRef.current - 1;
+
+                // if(secRef.current === 0 || props.isCombo) {
+                //     clearIncSec();
+                //     if(props.isCombo) {
+                //         secRef.current = secRef.current + 10;    //add 10 sec
+                //     }
+                //     props.setCombFalse();   //to trigger useEffect to start again
+                // } else secRef.current = secRef.current - 1;
+                // // setSeconds(secRef.current);
+                props.updateTime(secRef.current);
+            }, 1000);
+
+            return (() => clearInterval(intervalId));
         }
-        return () => clearInterval(interval);
-    }, [isRunning, seconds]);     //Only re-run effect if these state changes
+    }, [isRunning, props.isCombo]);
+
+    //works - but ++
+    // useEffect(() => {
+    //     // debugger;
+    //     secRef.current = window.setInterval(() => {
+    //         setSeconds((s) => s + 1);
+    //     }, 1000);
+
+    //     return clearIncSec;
+
+    // }, []);
 
     return(
         <div className="timer">
             {/* <p className="secs">{seconds}s</p> */}
 
             <div >
-                <button onClick={toggleIsRunning} className="button">{isRunning ? "Pause" : "Start"} </button>
-                <button onClick={reset} className="button">Reset</button>
+                {/* {secRef.current > 0 ? */}
+                {!isRunning ?
+                    <button disabled={secRef.current===0} onClick={start} className="button">Start</button>
+                    : ""}
+                {isRunning ? <button onClick={reset} className="button">Reset</button>
+                    : ""}
             </div>
         </div>
     );
