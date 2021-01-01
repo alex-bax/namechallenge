@@ -55,9 +55,15 @@ var App = () => {
       })
     }
 
+    //make useEffect - when game isActive then enable text inp!
   useEffect(() => {
-    isStartChValid(randStartCh2());
-  }, []);   //only do it upon initial render
+    if(!isActive) {
+      isStartChValid(randStartCh2());
+    } else {
+      enableInp()
+    }
+
+  }, [isActive]);   //only do it upon initial render
 
   //passed down to Timer - reset all state
   function stopGame () {
@@ -180,7 +186,7 @@ var App = () => {
             {infoMess.length === 0 ? <p className="scoreTxt">Score: {score}</p> : <p className={["display-linebreak", "blue-border"].join(" ")}>{infoMess}</p>}
             <p>Combo: {combo }</p>
             <Timer secs={sec} stopFunc={stopGame} startFunc={startGame} updateTime={updateSecs} setCombFalse={setComboFalse}
-                isCombo={isComb} enableInput={enableInp} />
+                isCombo={isComb}  />
 
 
             <div className="form">
@@ -191,7 +197,8 @@ var App = () => {
                           disabled={!isActive} ref={inpRef}/>
 
                       {/* <button type="submit">Submit city</button> */}
-                      <button className="submitButton" type="submit" disabled={sec === 0 || sec === 20}>Submit city</button>
+                      {isActive ? <button className="submitButton" type="submit" disabled={!isActive}>Submit city</button>
+                        : ""}
 
                     </div>
                 </form>

@@ -11,8 +11,8 @@ var Timer = (props) => {
 
     const start = () => {
         setIsRunning(true);
-        props.enableInput();
         props.startFunc();
+        // props.enableInput();
     }
 
     const reset = () => {
