@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 var Timer = (props) => {
 
     const [isRunning, setIsRunning] = useState(false);
+
     // const [isCombo, setIsCombo] = useState(props.isCombo);
 
     const secRef = useRef(props.secs);
@@ -12,10 +13,10 @@ var Timer = (props) => {
 
     const reset = () => {
         clearIncSec();
-        secRef.current = 5;
+        secRef.current = 20;
         setIsRunning(false);
         props.updateTime(secRef.current);
-        props.stopFunc(false);
+        props.stopFunc();
     }
 
     const clearIncSec = () => {
@@ -28,11 +29,10 @@ var Timer = (props) => {
 
             const intervalId = setInterval(() => {
                 if(secRef.current === 0 || props.isCombo) {
-                    // clearInterval(intervalId);
                     // debugger
                     clearIncSec();
                     if(props.isCombo) {
-                        secRef.current = secRef.current + 50;    //add 10 sec
+                        secRef.current = secRef.current + 10;    //add 10 sec
                     }
                     props.setCombFalse();   //to trigger useEffect to start again
                 } else secRef.current = secRef.current - 1;

@@ -187,8 +187,16 @@ textarea:focus, input:focus{
   padding: 5;
 }
 
+.greenTxt {
+  color: rgb(50, 214, 50);
+}
+
 .display-linebreak {
   white-space: pre-line;
+}
+
+.scoreTxt {
+  font-size: 25px;
 }
 
 /*info box*/

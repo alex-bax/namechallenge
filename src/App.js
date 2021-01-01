@@ -57,15 +57,13 @@ var App = () => {
   }, []);   //only do it upon initial render
 
   //passed down to Timer - reset all state
-  function stopGame (inp) {
-    if(!inp) {
-      setScore(0);
-      setCombo(0);
-      setUsedCities([]);
-      setCityInp("");
-      setSendVal("");
-      setAcc(false);
-    }
+  function stopGame () {
+    setScore(0);
+    setCombo(0);
+    setUsedCities([]);
+    setCityInp("");
+    setSendVal("");
+    setAcc(false);
   }
 
   function updateSecs (secFromTimer) {
@@ -85,7 +83,6 @@ var App = () => {
 
         setAcc(res.data);
         if(res.data) {
-          debugger
 
           setCityInp("");
           setScore(score + 1);
@@ -134,7 +131,6 @@ var App = () => {
     })
   }
 
-
   const randStartCh = () => {
     const randAZLst = [...Array('Z'.charCodeAt(0) - 'A'.charCodeAt(0) + 1).keys()].map(i => i + 'A'.charCodeAt(0));   //[65 .. 90]
     // console.log("randAZ:", randAZLst);
@@ -165,10 +161,12 @@ var App = () => {
           {sendVal ? <p style={{fontSize: "24px", marginTop: "5px"}}> Entered: <span className={acc ? "correctTxt" : "wrongTxt" }>{sendVal}</span></p> : <p></p> }
           <div className="scoreDiv">
             <h1 className="startCh">{startCh.toUpperCase()}</h1>
-            <p className="secs">{sec}s</p>
+            <p className={isComb ?  ["secs", "greenTxt"].join(" ") : "secs"}>{sec}s</p>
           </div>
-            {infoMess.length === 0 ? <p>Score: {score}</p> : <p className={["display-linebreak", "blue-border"].join(" ")}>{infoMess}</p>}
-            <Timer secs={sec} stopFunc={stopGame} updateTime={updateSecs} setCombFalse={setComboFalse} isCombo={isComb}/>
+            {infoMess.length === 0 ? <p className="scoreTxt">Score: {score}</p> : <p className={["display-linebreak", "blue-border"].join(" ")}>{infoMess}</p>}
+            <p>Combo: {combo }</p>
+            <Timer secs={sec} stopFunc={stopGame} updateTime={updateSecs} setCombFalse={setComboFalse}
+                isCombo={isComb} />
 
 
             <div className="form">
