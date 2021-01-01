@@ -77,7 +77,8 @@ var Timer = (props) => {
                 {!isRunning ?
                     <button disabled={secRef.current===0} onClick={start} className="button">Start</button>
                     : ""}
-                <button onClick={reset} className="button">Reset</button>
+                {isRunning ? <button onClick={reset} className="button">Reset</button>
+                    : ""}
             </div>
         </div>
     );
