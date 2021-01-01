@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Timer from './Components/Timer';
 import randStartCh2 from './Components/RandChar';
+import ResultTable from './Components/ResultTable';
 
 var App = () => {
   const [cityInp, setCityInp] = useState("");
@@ -13,7 +14,7 @@ var App = () => {
   const [combo, setCombo] = useState(0);
 
   const [startCh, setStartCh] = useState(''); //useState(String.fromCharCode(Math.floor(Math.random() * ("Z".charCodeAt(0) - "A".charCodeAt(0) + 1)) + "A".charCodeAt(0)));
-  const [usedCities, setUsedCities] = useState([]);//useState(["Præstø","Pedersker","Padborg","Pjedsted","Pindstrup","Pårup","Præstbro","Pandrup","Poulstrup"]);
+  const [usedCities, setUsedCities] = useState(["Præstø","Pedersker","Padborg","Pjedsted","Pindstrup","Pårup", "Pindstrup","Pårup", ]);
   const [infoMess, setInfoMess] = useState("");
   const [isComb, setIsComb] = useState(false);
   const [isActive, setIsActive] = useState(false);  //is game running
@@ -208,6 +209,7 @@ var App = () => {
                     </div>
                 </form>
             </div>
+            <ResultTable cities={usedCities} />
 
         </article>
 

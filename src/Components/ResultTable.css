@@ -1,0 +1,49 @@
+
+.content {
+    font-size: .75em; /* 12/16 */
+    width: 71.875%; /* 650/960 */
+    max-width: 960px;
+    text-align: center;
+    margin: 0px auto; /*auto centers the container */
+    padding: 3.84615384615385%;
+    height: 100px;
+    overflow-y:auto;
+    /* width: 100px; */
+    /* overflow:auto; */
+}
+
+.columns {
+    -moz-column-width: 11.5em; /* Firefox */
+    -webkit-column-width: 11.5em; /* webkit, Safari, Chrome */
+    column-width: 11.5em;
+
+
+}
+
+.table {
+    /* display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    list-style-type: none;
+
+    height: 100px;
+    max-width: 30px;
+    overflow:"scroll"; */
+    /* height:"20vh"; */
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+
+
+}
+
+.item {
+    color: white;
+
+    /* border-top: 1px double #ff6550; */
+    border-bottom: 1px double #2e94f5;
+}
+
+
+
