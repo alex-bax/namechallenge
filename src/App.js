@@ -14,7 +14,7 @@ var App = () => {
   const [combo, setCombo] = useState(0);
 
   const [startCh, setStartCh] = useState(''); //useState(String.fromCharCode(Math.floor(Math.random() * ("Z".charCodeAt(0) - "A".charCodeAt(0) + 1)) + "A".charCodeAt(0)));
-  const [usedCities, setUsedCities] = useState(["Præstø","Pedersker","Padborg","Pjedsted","Pindstrup","Pårup", "Pindstrup","Pårup", ]);
+  const [usedCities, setUsedCities] = useState([]);
   const [infoMess, setInfoMess] = useState("");
   const [isComb, setIsComb] = useState(false);
   const [isActive, setIsActive] = useState(false);  //is game running

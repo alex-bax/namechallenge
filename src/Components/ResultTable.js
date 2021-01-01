@@ -8,7 +8,7 @@ var ResultTable = (props) => {
                 <ul className={"table"} >
                     {props.cities.map(city =>
                         <li key={city.id} className="item">
-                            {city}
+                            {city.replace(city.charAt(0), city.charAt(0).toUpperCase())}  
                         </li>)}
                 </ul>
             </div>
