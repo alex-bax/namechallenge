@@ -60,7 +60,7 @@ body {
   /* Set up proportionate scaling */
   width: 100%;
   height: auto;
-/* 
+/*
   zoom: 1;
 	filter: alpha(opacity=75);
 	opacity: 0.75; */
@@ -213,6 +213,12 @@ textarea:focus, input:focus{
   /* align-items: center; */
   justify-content: center;
   width: auto;
+}
+
+.hintTxt {
+  margin-bottom: 11px;
+  margin-top: 0px;
+  padding-top: 0px;
 }
 
 

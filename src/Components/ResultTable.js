@@ -3,7 +3,7 @@ import './ResultTable.css';
 var ResultTable = (props) => {
     return (
         <div className="content" >
-            <div class="columns">
+            <div className="columns">
                 <ul className={"table"} >
                     {props.cities.map(city =>
                         <li key={city.id} className="item">

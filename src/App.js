@@ -10,11 +10,14 @@ var App = () => {
   const [sendVal, setSendVal] = useState("");   //final val being sent
   const [score, setScore] = useState(0);
   const [acc, setAcc] = useState(false);    //if sent city was accepted
-  const [sec, setSecs] = useState(30);
+  const [sec, setSecs] = useState(60);
   const [combo, setCombo] = useState(0);
 
-  const [startCh, setStartCh] = useState(''); //useState(String.fromCharCode(Math.floor(Math.random() * ("Z".charCodeAt(0) - "A".charCodeAt(0) + 1)) + "A".charCodeAt(0)));
+  const [startCh, setStartCh] = useState(randStartCh2()); //useState(String.fromCharCode(Math.floor(Math.random() * ("Z".charCodeAt(0) - "A".charCodeAt(0) + 1)) + "A".charCodeAt(0)));
   const [usedCities, setUsedCities] = useState([]);
+
+  const [hintCity, setHintCity] = useState("");
+
   const [infoMess, setInfoMess] = useState("");
   const [isComb, setIsComb] = useState(false);
   const [isActive, setIsActive] = useState(false);  //is game running
@@ -39,27 +42,10 @@ var App = () => {
     }
   }
 
-  const getAll = () => {
-    axios.get('https://localhost:44334/city')
-      .then(res => {
-        console.log(res.data);
-        setScore(res.data);
-        // debugger;
-      }).catch((error) => {
-        console.log(error);
-        if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        }
-      })
-    }
-
-    //make useEffect - when game isActive then enable text inp!
   useEffect(() => {
     if(!isActive) {
       isStartChValid(randStartCh2());
-      // setStartCh('I')  //testing randChar
+
     } else {
       enableInp()
     }
@@ -69,7 +55,6 @@ var App = () => {
   //passed down to Timer - reset all state
   function stopGame () {
     setCombo(0);
-    // setUsedCities([]);
     setCityInp("");
     setSendVal("");
     setAcc(false);
@@ -88,37 +73,30 @@ var App = () => {
   }
 
   function setComboFalse() {
-    console.log("app - set comb false")
     setCombo(false);
     setIsComb(false);
   }
 
   function enableInp() {
-    console.log("enable!")
     // debugger
     inpRef.current.focus();
   }
 
 
-
   const checkCity = (cityName) => {
     axios.get('https://democity.azurewebsites.net/' + cityName)
       .then(res => {
-        console.log("checkCity:", res.data);
+        // console.log("checkCity:", res.data);
 
         setAcc(res.data);
         if(res.data) {
-
           setCityInp("");
           setScore(score + 1);
           setCombo(combo + 1);
           setUsedCities(oldLst => [...oldLst, cityName.toLowerCase()]);
-          console.log("combo", combo)
           if((combo+1) === 3) {
             setCombo(0);
             setIsComb(true);
-            // setIsComb(false)
-            // setSecs(sec + 100);
           }
           // setStartCh(cityName.charAt(cityName.length - 1));
           isStartChValid(cityName.charAt(cityName.length - 1));   //recurse until accep. new rand startCh
@@ -133,22 +111,28 @@ var App = () => {
     axios.get('https://democity.azurewebsites.net/cat/' + stCh.toUpperCase())
     .then(resp =>  {
         const citiesByCh = resp.data.citiesStartCh;
-        console.log(stCh+" startCh: ", citiesByCh);
 
         if (citiesByCh.length > 0) {
-          const fil = usedCities.filter(name => citiesByCh.includes(name));   //keep items that are in both lsts
+          let difference = citiesByCh.filter(x => !usedCities.includes(x));
+          setHintCity( difference[Math.floor(Math.random() * difference.length)]);
+
+          // const fil = usedCities.filter(name =>  citiesByCh.includes(name.replace(name.charAt(0), name.charAt(0).toUpperCase())));   //keep items that are in both lsts
+          const fil = citiesByCh.filter(name => usedCities.includes(name.toLowerCase()));
+          // console.log("cities in both ch:", fil)
           if (fil.length === citiesByCh.length) {   //lsts identical - thus all cities w. that startCh are used
             setInfoMess("Random letter generated \n All cities used with: " + stCh.toUpperCase());
             setTimeout(() => {
               setInfoMess("")
             }, 5000)
+
             isStartChValid(randStartCh());
 
           } else {
+            // setLatestActiveStCh(stCh)
             setStartCh(stCh);
           }
         } else {  //no cities w. startCh in API e.g 'Z' - find new rand. startCh
-
+          console.log("gen rand letter!")
           isStartChValid(randStartCh2());
           // isStartChValid('P');   //testing
 
@@ -208,6 +192,7 @@ var App = () => {
                     </div>
                 </form>
             </div>
+            {!isActive && usedCities.length > 0 ? <p className="hintTxt">Hint: {hintCity}</p> : ""}
             {usedCities.length > 0 ? <h2 style={{marginBottom:"7px"}}>Entered cities</h2> : ""}
             <ResultTable cities={usedCities} />
 
