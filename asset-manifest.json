@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/namechallenge/static/css/main.4431a9c3.chunk.css",
-    "main.js": "/namechallenge/static/js/main.f222de67.chunk.js",
-    "main.js.map": "/namechallenge/static/js/main.f222de67.chunk.js.map",
+    "main.css": "/namechallenge/static/css/main.97685ccd.chunk.css",
+    "main.js": "/namechallenge/static/js/main.630438dc.chunk.js",
+    "main.js.map": "/namechallenge/static/js/main.630438dc.chunk.js.map",
     "runtime-main.js": "/namechallenge/static/js/runtime-main.99a93dff.js",
     "runtime-main.js.map": "/namechallenge/static/js/runtime-main.99a93dff.js.map",
-    "static/js/2.3331e5a8.chunk.js": "/namechallenge/static/js/2.3331e5a8.chunk.js",
-    "static/js/2.3331e5a8.chunk.js.map": "/namechallenge/static/js/2.3331e5a8.chunk.js.map",
+    "static/js/2.1df689e0.chunk.js": "/namechallenge/static/js/2.1df689e0.chunk.js",
+    "static/js/2.1df689e0.chunk.js.map": "/namechallenge/static/js/2.1df689e0.chunk.js.map",
     "index.html": "/namechallenge/index.html",
-    "static/css/main.4431a9c3.chunk.css.map": "/namechallenge/static/css/main.4431a9c3.chunk.css.map",
-    "static/js/2.3331e5a8.chunk.js.LICENSE.txt": "/namechallenge/static/js/2.3331e5a8.chunk.js.LICENSE.txt"
+    "static/css/main.97685ccd.chunk.css.map": "/namechallenge/static/css/main.97685ccd.chunk.css.map",
+    "static/js/2.1df689e0.chunk.js.LICENSE.txt": "/namechallenge/static/js/2.1df689e0.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.99a93dff.js",
-    "static/js/2.3331e5a8.chunk.js",
-    "static/css/main.4431a9c3.chunk.css",
-    "static/js/main.f222de67.chunk.js"
+    "static/js/2.1df689e0.chunk.js",
+    "static/css/main.97685ccd.chunk.css",
+    "static/js/main.630438dc.chunk.js"
   ]
 }
